@@ -45,7 +45,7 @@ Evaluate this essay according to official scoring criteria.
 
     const result = await geminiJsonModel.generateContent({
       contents: [
-        { role: 'user', parts: [{ text: systemInstruction + '\\n\\n' + userPrompt }] }
+        { role: 'user', parts: [{ text: systemInstruction + '\n\n' + userPrompt }] }
       ],
     })
 

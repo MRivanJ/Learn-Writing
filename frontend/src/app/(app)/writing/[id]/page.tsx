@@ -8,12 +8,35 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { ArrowLeft, Loader2, CheckCircle2 } from 'lucide-react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { PromptVisualCard, describeVisual, type PromptVisual } from '@/components/prompt-visual'
 
 // Pre-defined prompts for MVP
-const PROMPTS: Record<string, { title: string; text: string }> = {
+const PROMPTS: Record<string, { title: string; text: string; visual?: PromptVisual }> = {
   'ielts-task1': {
     title: 'IELTS Task 1',
     text: 'The chart below shows the number of men and women in further education in Britain in three periods and whether they were studying full-time or part-time. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.',
+    visual: {
+      chart: {
+        title: 'Students in further education in Britain (thousands)',
+        yLabel: 'Thousands of students',
+        xKey: 'period',
+        series: ['Men full-time', 'Men part-time', 'Women full-time', 'Women part-time'],
+        data: [
+          { period: '1970/71', 'Men full-time': 100, 'Men part-time': 1000, 'Women full-time': 70, 'Women part-time': 750 },
+          { period: '1980/81', 'Men full-time': 110, 'Men part-time': 800, 'Women full-time': 130, 'Women part-time': 1100 },
+          { period: '1990/91', 'Men full-time': 130, 'Men part-time': 650, 'Women full-time': 200, 'Women part-time': 1400 },
+        ],
+      },
+      table: {
+        caption: 'Same data in table form (thousands)',
+        headers: ['Period', 'Men full-time', 'Men part-time', 'Women full-time', 'Women part-time'],
+        rows: [
+          ['1970/71', 100, 1000, 70, 750],
+          ['1980/81', 110, 800, 130, 1100],
+          ['1990/91', 130, 650, 200, 1400],
+        ],
+      },
+    },
   },
   'ielts-task2': {
     title: 'IELTS Task 2',
@@ -26,6 +49,18 @@ const PROMPTS: Record<string, { title: string; text: string }> = {
   'toefl-integrated': {
     title: 'TOEFL Integrated',
     text: 'Read the passage about the decline of the bee population. Then, write an essay summarizing the points made in the lecture you listened to, explaining how they cast doubt on the points made in the reading passage.',
+    visual: {
+      texts: [
+        {
+          heading: 'Reading Passage: The Decline of the Bee Population',
+          body: 'Bee populations around the world have been falling sharply, and scientists have proposed three main explanations.\n\nFirst, pesticides called neonicotinoids are widely used on crops. These chemicals are absorbed by plants and found in pollen and nectar, where they damage the nervous systems of bees and weaken their ability to navigate back to the hive.\n\nSecond, the Varroa mite, a parasite that attaches to bees and feeds on them, has spread to nearly every continent. Infested colonies lose workers quickly and often collapse within a few seasons.\n\nThird, the loss of natural habitat has reduced the variety of flowering plants available. Bees that rely on a narrow diet become malnourished and are more vulnerable to disease.',
+        },
+        {
+          heading: 'Lecture Transcript (summary of what you "listened" to)',
+          body: 'Professor: The reading makes the problem sound simple, but the evidence is more complicated.\n\nTake pesticides. Laboratory studies used doses far higher than bees meet in real fields. In field trials with realistic doses, many colonies showed no measurable harm, and some countries that banned neonicotinoids saw their bee losses continue.\n\nAs for the Varroa mite, it is true that it is widespread, but beekeepers have developed effective treatments. Colonies that are monitored and treated regularly survive at rates close to normal, so the mite alone cannot explain the global decline.\n\nFinally, habitat loss. Honeybees are managed by people and are moved to wherever flowers are abundant, so they are not limited by local habitat. If anything, habitat loss matters more for wild bees than for the honeybees counted in most decline statistics.',
+        },
+      ],
+    },
   }
 }
 
@@ -39,7 +74,7 @@ export default function WritingEditorPage(props: { params: Promise<{ id: string 
   const [error, setError] = useState<string | null>(null)
 
   const promptData = PROMPTS[id]
-  const wordCount = essay.trim().split(/\\s+/).filter(w => w.length > 0).length
+  const wordCount = essay.trim().split(/\s+/).filter(w => w.length > 0).length
 
   if (!promptData) {
     return (
@@ -69,7 +104,7 @@ export default function WritingEditorPage(props: { params: Promise<{ id: string 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           promptType: id,
-          promptText: promptData.text,
+          promptText: promptData.text + (promptData.visual ? '\n\n' + describeVisual(promptData.visual) : ''),
           essayText: essay
         })
       })
@@ -126,6 +161,8 @@ export default function WritingEditorPage(props: { params: Promise<{ id: string 
               <p className="font-medium text-slate-800 leading-relaxed">{promptData.text}</p>
             </CardContent>
           </Card>
+
+          {promptData.visual && <PromptVisualCard visual={promptData.visual} />}
 
           {error && (
             <Alert variant="destructive">

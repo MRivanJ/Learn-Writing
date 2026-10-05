@@ -7,10 +7,17 @@ export async function handler(_req: Request, res: Response) {
 You are an expert English examiner. Generate a TOEFL/IELTS style academic reading passage (around 300-400 words) and 5 multiple-choice comprehension questions based on the passage.
 The passage should be on a random academic topic (e.g., Biology, History, Astronomy, Sociology).
 
+If any question refers to a table, data, figure, diagram or chart, you MUST provide that data in the "table" field so the student can see it (never refer to visual material that is not included). If no table is needed, set "table" to null.
+
 Return a strictly formatted JSON object with this structure:
 {
   "title": "Title of the passage",
   "content": "Full text of the passage. Use paragraphs separated by \\n\\n.",
+  "table": {
+    "caption": "Short title of the table",
+    "headers": ["Column 1", "Column 2"],
+    "rows": [["value", "value"]]
+  }, // or null
   "questions": [
     {
       "id": "q1",

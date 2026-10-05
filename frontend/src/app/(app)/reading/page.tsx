@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Loader2, CheckCircle, XCircle } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { DataTable, type PromptTable } from '@/components/prompt-visual'
 
 type Question = {
   id: string
@@ -17,6 +18,7 @@ type Question = {
 type Passage = {
   title: string
   content: string
+  table?: PromptTable | null
   questions: Question[]
 }
 
@@ -108,10 +110,11 @@ export default function ReadingPage() {
           <div className="space-y-4">
             <h3 className="text-2xl font-bold font-serif">{passage.title}</h3>
             <div className="prose prose-slate max-w-none text-slate-800 leading-relaxed font-serif text-lg">
-              {passage.content.split('\\n\\n').map((paragraph, idx) => (
+              {passage.content.split(/\n\s*\n/).map((paragraph, idx) => (
                 <p key={idx} className="mb-4">{paragraph}</p>
               ))}
             </div>
+            {passage.table && <DataTable table={passage.table} />}
           </div>
 
           {/* Questions Section */}
