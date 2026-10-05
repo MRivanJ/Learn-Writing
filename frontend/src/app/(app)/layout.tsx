@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { LanguageProvider } from '@/lib/language'
 import { LanguageToggle } from '@/components/language-toggle'
-import { LayoutDashboard, PenTool, BookOpen, Library, BookText, LogOut } from 'lucide-react'
+import { LayoutDashboard, PenTool, BookOpen, Library, BookText, LogOut, GraduationCap } from 'lucide-react'
 
 export default async function AppLayout({
   children,
@@ -38,6 +38,7 @@ export default async function AppLayout({
 
   const navItems = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    { name: 'Learn', href: '/learn', icon: GraduationCap },
     { name: 'Writing', href: '/writing', icon: PenTool },
     { name: 'Grammar', href: '/grammar', icon: BookOpen },
     { name: 'Vocabulary', href: '/vocabulary', icon: Library },

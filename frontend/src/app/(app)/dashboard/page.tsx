@@ -230,17 +230,38 @@ export default async function DashboardPage() {
           <CardContent>
             {topWeakAreas.length > 0 ? (
               <ul className="space-y-4">
-                {topWeakAreas.map((area, idx) => (
-                  <li key={idx} className="flex justify-between items-center border-b pb-2 last:border-0 last:pb-0">
-                    <div>
-                      <span className="font-medium block">{area.name}</span>
-                      <span className="text-xs text-muted-foreground">{area.type}</span>
+                {topWeakAreas.map((area, idx) => {
+                  // Rough mapping for prototype
+                  let learnLink = '/learn'
+                  if (area.type === 'Grammar') {
+                    if (area.name.includes('Conditionals')) learnLink = '/learn/grammar/medium/g-med-1'
+                    else if (area.name.includes('Tenses')) learnLink = '/learn/grammar/beginner/g-beg-1'
+                    else if (area.name.includes('Articles')) learnLink = '/learn/grammar/beginner/g-beg-2'
+                    else learnLink = '/learn/grammar/beginner'
+                  } else if (area.type === 'Writing') {
+                    learnLink = '/learn/writing/beginner/w-beg-1'
+                  }
+                  
+                  return (
+                  <li key={idx} className="flex flex-col gap-2 border-b pb-3 last:border-0 last:pb-0">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <span className="font-medium block">{area.name}</span>
+                        <span className="text-xs text-muted-foreground">{area.type}</span>
+                      </div>
+                      <span className="text-amber-500 font-bold bg-amber-50 px-2 py-1 rounded">
+                        {area.formatted}
+                      </span>
                     </div>
-                    <span className="text-amber-500 font-bold bg-amber-50 px-2 py-1 rounded">
-                      {area.formatted}
-                    </span>
+                    <div className="flex justify-end">
+                      <Link href={learnLink}>
+                        <Button variant="ghost" size="sm" className="text-xs h-7 text-primary">
+                          Study this topic &rarr;
+                        </Button>
+                      </Link>
+                    </div>
                   </li>
-                ))}
+                )})}
               </ul>
             ) : (
               <div className="text-sm text-muted-foreground text-center py-8">
