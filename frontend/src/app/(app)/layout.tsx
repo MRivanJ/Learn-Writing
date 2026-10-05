@@ -2,6 +2,8 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import { LanguageProvider } from '@/lib/language'
+import { LanguageToggle } from '@/components/language-toggle'
 import { LayoutDashboard, PenTool, BookOpen, Library, BookText, LogOut } from 'lucide-react'
 
 export default async function AppLayout({
@@ -43,6 +45,7 @@ export default async function AppLayout({
   ]
 
   return (
+    <LanguageProvider>
     <div className="flex min-h-screen flex-col md:flex-row">
       {/* Sidebar */}
       <aside className="w-full md:w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col">
@@ -62,7 +65,10 @@ export default async function AppLayout({
             </Link>
           ))}
         </nav>
-        <div className="p-4 mt-auto border-t border-slate-800">
+        <div className="mt-auto">
+          <LanguageToggle />
+        </div>
+        <div className="p-4 border-t border-slate-800">
           <form action="/auth/signout" method="post">
             <button className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition-colors w-full text-left text-slate-400 hover:text-white">
               <LogOut className="w-5 h-5" />
@@ -79,5 +85,6 @@ export default async function AppLayout({
         </div>
       </main>
     </div>
+    </LanguageProvider>
   )
 }

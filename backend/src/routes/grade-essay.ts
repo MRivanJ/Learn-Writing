@@ -22,11 +22,13 @@ Please return a strictly formatted JSON object with the following structure:
     "lexical": number, // Sub-score
     "grammar": number, // Sub-score
     "overall_comments": "string detailed overall feedback",
+    "overall_comments_id": "the same overall feedback written in simple, natural Bahasa Indonesia",
     "errors": [
       {
         "original": "the exact incorrect word/phrase from the text",
         "correction": "the suggested correction",
-        "explanation": "why it is wrong"
+        "explanation": "why it is wrong",
+        "explanation_id": "why it is wrong, in simple Bahasa Indonesia"
       }
     ]
   }

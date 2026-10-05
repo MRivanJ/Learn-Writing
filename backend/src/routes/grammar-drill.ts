@@ -21,7 +21,8 @@ Return a strictly formatted JSON object with this structure:
       "text": "The sentence with a blank...",
       "options": ["A", "B", "C", "D"], // exactly 4 options
       "correctAnswer": "A", // must match one of the options exactly
-      "explanation": "Why this answer is correct."
+      "explanation": "Why this answer is correct (in simple English).",
+      "explanationId": "The same explanation written in simple, natural Bahasa Indonesia for an Indonesian learner."
     }
   ]
 }

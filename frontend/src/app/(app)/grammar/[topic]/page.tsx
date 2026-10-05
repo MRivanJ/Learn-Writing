@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Loader2, ArrowLeft, CheckCircle, XCircle } from 'lucide-react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { IdText } from '@/components/id-text'
 
 type Question = {
   id: string
@@ -13,6 +14,7 @@ type Question = {
   options: string[]
   correctAnswer: string
   explanation: string
+  explanationId?: string
 }
 
 export default function GrammarDrillPage(props: { params: Promise<{ topic: string }> }) {
@@ -198,6 +200,7 @@ export default function GrammarDrillPage(props: { params: Promise<{ topic: strin
               <div className={`p-4 rounded-md text-sm ${selectedOption === currentQ.correctAnswer ? 'bg-green-100 text-green-900' : 'bg-red-100 text-red-900'}`}>
                 <strong>Explanation: </strong>
                 {currentQ.explanation}
+                <IdText text={currentQ.explanationId} label="Penjelasan" className="bg-white/70" />
               </div>
               <div className="flex justify-end">
                 <Button onClick={handleNext}>

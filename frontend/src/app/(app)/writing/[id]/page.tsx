@@ -8,6 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { ArrowLeft, Loader2, CheckCircle2 } from 'lucide-react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { IdText } from '@/components/id-text'
 import { PromptVisualCard, describeVisual, type PromptVisual } from '@/components/prompt-visual'
 
 // Pre-defined prompts for MVP
@@ -236,7 +237,7 @@ export default function WritingEditorPage(props: { params: Promise<{ id: string 
                   <h4 className="font-semibold text-sm uppercase text-slate-500">Overall Comments</h4>
                   <p className="text-sm text-slate-700 leading-relaxed">
                     {feedback.feedback.overall_comments}
-                  </p>
+                  </p><IdText text={feedback.feedback.overall_comments_id} label="Komentar (Indonesia)" />
                 </div>
 
                 {/* Grammar Errors */}
@@ -249,6 +250,7 @@ export default function WritingEditorPage(props: { params: Promise<{ id: string 
                           <div className="line-through text-red-600/70 mb-1">{err.original}</div>
                           <div className="text-green-700 font-medium mb-1">→ {err.correction}</div>
                           <div className="text-xs text-slate-600">{err.explanation}</div>
+                          <IdText text={err.explanation_id} label="Penjelasan" className="text-xs" />
                         </li>
                       ))}
                     </ul>

@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button'
 import { Loader2, CheckCircle, XCircle } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { DataTable, type PromptTable } from '@/components/prompt-visual'
+import { IdText } from '@/components/id-text'
+import { GlossaryText, type GlossaryEntry } from '@/components/glossary-text'
 
 type Question = {
   id: string
@@ -13,12 +15,14 @@ type Question = {
   options: string[]
   correctAnswer: string
   explanation: string
+  explanationId?: string
 }
 
 type Passage = {
   title: string
   content: string
   table?: PromptTable | null
+  glossary?: GlossaryEntry[] | null
   questions: Question[]
 }
 
@@ -111,7 +115,7 @@ export default function ReadingPage() {
             <h3 className="text-2xl font-bold font-serif">{passage.title}</h3>
             <div className="prose prose-slate max-w-none text-slate-800 leading-relaxed font-serif text-lg">
               {passage.content.split(/\n\s*\n/).map((paragraph, idx) => (
-                <p key={idx} className="mb-4">{paragraph}</p>
+                <p key={idx} className="mb-4"><GlossaryText text={paragraph} glossary={passage.glossary} /></p>
               ))}
             </div>
             {passage.table && <DataTable table={passage.table} />}
@@ -175,6 +179,7 @@ export default function ReadingPage() {
                     <div className={`mt-4 p-4 rounded-md text-sm ${answers[q.id] === q.correctAnswer ? 'bg-green-100 text-green-900' : 'bg-red-100 text-red-900'}`}>
                       <span className="font-bold">Explanation: </span>
                       {q.explanation}
+                      <IdText text={q.explanationId} label="Penjelasan" className="bg-white/70" />
                     </div>
                   )}
                 </CardContent>

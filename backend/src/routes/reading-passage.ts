@@ -18,13 +18,17 @@ Return a strictly formatted JSON object with this structure:
     "headers": ["Column 1", "Column 2"],
     "rows": [["value", "value"]]
   }, // or null
+  "glossary": [
+    { "word": "a harder word that appears in the passage", "meaningId": "its meaning in Bahasa Indonesia" }
+  ], // 6 to 10 of the hardest words in the passage
   "questions": [
     {
       "id": "q1",
       "text": "The question text...",
       "options": ["A", "B", "C", "D"], // exactly 4 options
       "correctAnswer": "A", // must match exactly one of the options
-      "explanation": "Why this answer is correct."
+      "explanation": "Why this answer is correct (in simple English).",
+      "explanationId": "The same explanation written in simple, natural Bahasa Indonesia."
     }
   ]
 }

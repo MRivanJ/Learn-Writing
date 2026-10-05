@@ -5,10 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button'
 import { Loader2, RefreshCw } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { IdText } from '@/components/id-text'
 
 type Word = {
   word: string
   definition: string
+  meaningId?: string
   example: string
   synonyms: string[]
   partOfSpeech: string
@@ -137,6 +139,7 @@ export default function VocabularyPage() {
                   <span className="text-sm italic text-slate-500">{currentWord.partOfSpeech}</span>
                 </div>
                 <p className="text-lg text-slate-700 leading-relaxed">{currentWord.definition}</p>
+                <IdText text={currentWord.meaningId} label="Arti" />
               </div>
               
               <div className="bg-white p-4 rounded-md border border-slate-200">

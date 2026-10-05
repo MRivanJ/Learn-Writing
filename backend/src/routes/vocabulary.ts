@@ -8,6 +8,7 @@ export async function handler(req: Request, res: Response) {
 
     const systemInstruction = `
 You are an expert English vocabulary teacher. Generate a list of 5 high-frequency academic words suitable for TOEFL/IELTS preparation at the ${targetLevel} level.
+Write the "meaningId" field in natural, easy Bahasa Indonesia for an Indonesian learner.
 Make sure the words are useful for academic writing and reading.
 
 Return a strictly formatted JSON object with this structure:
@@ -15,7 +16,8 @@ Return a strictly formatted JSON object with this structure:
   "words": [
     {
       "word": "string",
-      "definition": "string",
+      "definition": "string (simple English definition)",
+      "meaningId": "string (the meaning of the word in simple Indonesian / Bahasa Indonesia)",
       "example": "string (a sentence using the word)",
       "synonyms": ["string", "string"],
       "partOfSpeech": "string"
